@@ -1,4 +1,4 @@
-package com.kopring
+package com.kopring.studylogs
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
