@@ -1,4 +1,4 @@
-package com.kopring.autoconfiguration.conditional.config
+package com.kopring.studylogs.autoconfiguration.conditional
 
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.matchers.shouldBe

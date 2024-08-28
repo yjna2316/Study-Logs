@@ -1,4 +1,4 @@
-package com.kopring.autoconfiguration.conditional.config
+package com.kopring.studylogs.autoconfiguration.conditional
 
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Assertions.assertFalse
