@@ -7,9 +7,6 @@ plugins {
 	kotlin("plugin.spring") version "2.0.0"
 }
 
-group = "com.kopring.studylogs"
-version = "0.0.1-SNAPSHOT"
-
 kotlin {
 	jvmToolchain(21)
 }
