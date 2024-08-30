@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: springboot-study
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+  endpoint:
+    health:
+      show-details: ALWAYS
+---
+spring:
+  config:
+    activate:
+      on-profile: api-server
+server:
+  port: 8080
+
+---
+spring:
+  config:
+    activate:
+      on-profile: vendor-server
+server:
+  port: 9090
