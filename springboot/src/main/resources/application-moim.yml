@@ -1,0 +1,37 @@
+spring:
+  config:
+    activate:
+      on-profile: moim
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      # 서버 장애 대응: 최근 30초 동안 50%가 실패하면 OPEN - 5초 대기 후 HALF-OPEN 전환 - 10초가 지나도 요청 없으면 CLOSED
+      userProfileCircuitBreaker:
+        register-health-indicator: true # Actuator에서 Circuit Braker 상태 확인 가능
+        sliding-window-type: TIME_BASED
+        sliding-window-size: 30 # 최근 30초 기준
+        failure-rate-threshold: 50 # 장애 비율 임계값 (50%)
+        wait-duration-in-open-state: 5000 # 5초 대기 후 HALF_OPEN 상태로 전환
+        max-wait-duration-in-half-open-state: 5000 # 요청 없이 10초가 지나면 CLOSED 상태로 강제 전환
+        permitted-number-of-calls-in-half-open-state: 5 # HALF_OPEN 상태에서 최대 5개 요청을 허용하여 복원 상태를 평가
+      userProfileSlowCallCircuitBreaker:
+        # 느린 응답 대응: 최근 5개 호출 중 50%가 1.5초 이상 걸리면 써킷 OPEN -> 5초 대기 후 HALF_OPEN 전환
+        register-health-indicator: true
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 5 # 최근 5개 호출 기준
+        slow-call-rate-threshold: 50 # 느린 호출 비율 임계값(50%)
+        slow-call-duration-threshold: 1000 # 느린 호출로 간주되기 위한 시간 (1.5초)
+        wait-duration-in-open-state: 5000 # 5초 대기 후 HALF_OPEN 상태로 전환
