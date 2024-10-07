@@ -21,7 +21,7 @@ allprojects {
 }
 
 // https://github.com/kotest/kotest/releases
-val kotestVersion = "5.9.1"
+val kotestVersion = "5.6.0"
 
 // Apply the plugins to all submodules
 subprojects {
@@ -36,6 +36,8 @@ subprojects {
 		testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
 		testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
 		testImplementation ("io.kotest:kotest-property:$kotestVersion")
+		testImplementation("io.kotest:kotest-extensions-spring:$kotestVersion")
+		testImplementation("io.mockk:mockk:1.4.1")
 		testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	}
 
