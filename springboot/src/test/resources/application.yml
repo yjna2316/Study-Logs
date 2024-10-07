@@ -1,0 +1,33 @@
+spring:
+  profiles:
+    active: test
+
+server:
+  port: 8080
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+    health:
+      show-details: ALWAYS
+
+resilience4j.circuitbreaker:
+  configs:
+    default: # 모든 CircuitBreaker 인스턴스에 공통적으로 적용될 수 있는 기본값
+      registerHealthIndicator: true
+  instances:
+    # 서버 장애 대응: 최근 30초 동안 50%가 실패하면 OPEN - 5초 대기 후 HALF-OPEN 전환 - 10초가 지나도 요청 없으면 CLOSED
+    userProfileCircuitBreaker:
+      slidingWindowType: TIME_BASED
+      slidingWindowSize: 30 # 최근 30초 동안
+      failureRateThreshold: 50 # 실패율 50%
+      minimumNumberOfCalls: 3 # 요청량이 3개 미만인 경우 실패율을 계산하지 않는다. 요청량이 너무 적으면 (요청량이 3개 미만) 모두 실패했더라도 장애로 인지하지 않는다. 실패율을 계산하지 않는다.
+      waitDurationInOpenState: 5000 # 5초 대기 후 HALF_OPEN 상태로 전환
+      permittedNumberOfCallsInHalfOpenState: 5 # HALF_OPEN 상태에서 최대 5개 요청을 허용하여 복원 여부를 판단
+      maxWaitDurationInHalfOpenState: 0 # 5개 요청이 모두 완료될때까지 대기
